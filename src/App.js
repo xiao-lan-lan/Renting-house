@@ -13,10 +13,11 @@ function App() {
       {/* 配置路由 */}
       <Router>
         <nav>
-          <Link to="/home">home</Link>
-          <Link to="/citylist">citylist</Link>
+          {/* <Link to="/home">home</Link>
+          <Link to="/citylist">citylist</Link> */}
         </nav>
         <div className="route">
+          {/* home中配置二级路由组件 */}
           <Route path="/home" component={Home} />
           <Route path="/citylist" component={citylist} />
         </div>
