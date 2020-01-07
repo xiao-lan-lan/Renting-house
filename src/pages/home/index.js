@@ -34,7 +34,7 @@ class Home extends React.Component {
         </div> */}
 
         <div className="route">
-          <Route path="/home/index" component={Index} />
+          <Route path="/home/" exact component={Index} />
           <Route path="/home/houselist" component={Houselist} />
           <Route path="/home/message" component={Message} />
           <Route path="/home/profile" component={Profile} />
