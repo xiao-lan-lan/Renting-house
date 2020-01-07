@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import { getSwiper } from "./api.js";
 
 // 轮播图
 import { Carousel } from "antd-mobile";
@@ -7,35 +7,32 @@ import { Carousel } from "antd-mobile";
 class Index extends React.Component {
   state = {
     swiperList: [],
-    imgHeight: 176
+    imgHeight: 176,
+    isloading:false
   };
 
   // 请求轮播图
   loadSwiper = async () => {
-    const {data:res} = await axios({
-      method: "get",
-      url: "http://localhost:8080/home/swiper"
-    });
+    const { data: res } = await getSwiper();
     // 失败
-    if (res.status!==200) {
-      console.log('获取轮播图失败');
+    if (res.status !== 200) {
+      console.log("获取轮播图失败");
     }
     // 成功，修改数据
     this.setState({
-      swiperList:res.body
-    })
-    
+      swiperList: res.body
+    });
   };
 
   componentDidMount() {
-    this.loadSwiper()
+    this.loadSwiper();
   }
 
   render() {
     return (
       <div className="home-index">
         {/* 轮播图 */}
-        <Carousel autoplay={true} infinite>
+        <Carousel autoplay={this.state.isloading} infinite>
           {this.state.swiperList.map(swiper => (
             <a
               key={swiper.id}
@@ -53,7 +50,7 @@ class Index extends React.Component {
                 onLoad={() => {
                   // fire window resize event to change height
                   window.dispatchEvent(new Event("resize"));
-                  this.setState({ imgHeight: "auto" });
+                  this.setState({ imgHeight: "auto",isloading:true });
                 }}
               />
             </a>

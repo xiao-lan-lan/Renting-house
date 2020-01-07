@@ -34,7 +34,7 @@ class Home extends React.Component {
         </div> */}
 
         <div className="route">
-          <Route path="/home/" exact component={Index} />
+          <Route path="/home" exact component={Index} />
           <Route path="/home/houselist" component={Houselist} />
           <Route path="/home/message" component={Message} />
           <Route path="/home/profile" component={Profile} />
@@ -42,7 +42,7 @@ class Home extends React.Component {
 
         {/* tabbar */}
         <div
-          style={{ position: "fixed", height: "100%", width: "100%", top: 0 }}
+          style={{ position: "fixed",  width: "100%", bottom: 0 }}
         >
           <TabBar
             unselectedTintColor="#949494"
