@@ -15,3 +15,11 @@ export const getGrid = () => {
     url: "/home/groups?area=AREA%7C88cff55c-aaa4-e2e0"
   });
 };
+
+// 新闻
+export const getNews = () => {
+  return http({
+    method: "get",
+    url: "/home/news?area=AREA%7C88cff55c-aaa4-e2e0"
+  });
+};

@@ -1,6 +1,6 @@
 import React from "react";
 // 请求
-import { getSwiper, getGrid } from "./api.js";
+import { getSwiper, getGrid,getNews } from "./api.js";
 import "./index.scss";
 // 导航图片
 import navimg1 from "../../assets/images/nav-1.png";
@@ -49,7 +49,8 @@ class Index extends React.Component {
     swiperList: [],//轮播图
     imgHeight: 176,
     isloading: false,
-    gridList:[]//宫格
+    gridList:[],//宫格
+    newsList:[]//资讯
   };
 
   // 请求轮播图
@@ -75,9 +76,20 @@ class Index extends React.Component {
     }
   };
 
+  // 请求新闻资讯
+  loadNews = async () => {
+    const {data} = await getNews();
+    if (data.status===200) {
+      this.setState({
+        newsList:data.body
+      })
+    }
+  }
+
   componentDidMount() {
     this.loadSwiper();
-    this.loadGrid()
+    this.loadGrid();
+    this.loadNews()
   }
 
   render() {
@@ -152,6 +164,25 @@ class Index extends React.Component {
           )}
         />
         {/* 列表资讯 */}
+        <Flex className="group" justify="between">
+          <h3>{"最新资讯"}</h3>
+        </Flex>
+        <div className="news">
+          {this.state.newsList.map((news) => {
+            return (
+              <div className="news-item" key={news.id}>
+                <img src={'http://localhost:8080'+news.imgSrc} alt="" />
+                <div>
+                    <p>{news.title}</p>
+                    <div>
+                      <span>{news.from}</span>
+                      <span>{news.date}</span>
+                    </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </div>
     );
   }
