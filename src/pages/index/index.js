@@ -1,14 +1,48 @@
 import React from "react";
+// 请求
 import { getSwiper } from "./api.js";
+import "./index.css";
+// 导航图片
+import navimg1 from "../../assets/images/nav-1.png";
+import navimg2 from "../../assets/images/nav-2.png";
+import navimg3 from "../../assets/images/nav-3.png";
+import navimg4 from "../../assets/images/nav-4.png";
+// antd组件
+import { Carousel, Flex } from "antd-mobile";
 
-// 轮播图
-import { Carousel } from "antd-mobile";
+// 导航菜单数据
+const navs = [
+  {
+    id: 1,
+    img: navimg1,
+    name: "整租",
+    path: "/home/a"
+  },
+  {
+    id: 2,
+    img: navimg2,
+    name: "合租",
+    path: "/home/b"
+  },
+  {
+    id: 3,
+    img: navimg3,
+    name: "地图找房",
+    path: "/home/c"
+  },
+  {
+    id: 4,
+    img: navimg4,
+    name: "去出租",
+    path: "/home/d"
+  }
+];
 
 class Index extends React.Component {
   state = {
     swiperList: [],
     imgHeight: 176,
-    isloading:false
+    isloading: false
   };
 
   // 请求轮播图
@@ -50,7 +84,7 @@ class Index extends React.Component {
                 onLoad={() => {
                   // fire window resize event to change height
                   window.dispatchEvent(new Event("resize"));
-                  this.setState({ imgHeight: "auto",isloading:true });
+                  this.setState({ imgHeight: "auto", isloading: true });
                 }}
               />
             </a>
@@ -59,6 +93,22 @@ class Index extends React.Component {
 
         {/* 顶部搜索 */}
         {/* 四个导航 */}
+        <Flex className="navs">
+          {navs.map(item => {
+            return (
+              <Flex.Item
+                className="nav-item"
+                key={item.id}
+                onClick={item => {
+                  this.props.history.push(item.path);
+                }}
+              >
+                <img src={item.img} alt="" />
+                <p>{item.name}</p>
+              </Flex.Item>
+            );
+          })}
+        </Flex>
         {/* 四个宫格 */}
         {/* 列表资讯 */}
       </div>
