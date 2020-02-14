@@ -1,14 +1,14 @@
 import React from "react";
 // 请求
-import { getSwiper } from "./api.js";
-import "./index.css";
+import { getSwiper, getGrid } from "./api.js";
+import "./index.scss";
 // 导航图片
 import navimg1 from "../../assets/images/nav-1.png";
 import navimg2 from "../../assets/images/nav-2.png";
 import navimg3 from "../../assets/images/nav-3.png";
 import navimg4 from "../../assets/images/nav-4.png";
 // antd组件
-import { Carousel, Flex } from "antd-mobile";
+import { Carousel, Flex, Grid } from "antd-mobile";
 
 // 导航菜单数据
 const navs = [
@@ -38,11 +38,18 @@ const navs = [
   }
 ];
 
+// 宫格数据
+// const data = Array.from(new Array(4)).map((_val, i) => ({
+//   icon: "https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png",
+//   text: `name${i}`
+// }));
+
 class Index extends React.Component {
   state = {
-    swiperList: [],
+    swiperList: [],//轮播图
     imgHeight: 176,
-    isloading: false
+    isloading: false,
+    gridList:[]//宫格
   };
 
   // 请求轮播图
@@ -58,8 +65,19 @@ class Index extends React.Component {
     });
   };
 
+  // 请求宫格数据
+  loadGrid = async () => {
+    const {data} = await getGrid();
+    if (data.status===200) {
+      this.setState({
+        gridList:data.body
+      })
+    }
+  };
+
   componentDidMount() {
     this.loadSwiper();
+    this.loadGrid()
   }
 
   render() {
@@ -99,7 +117,7 @@ class Index extends React.Component {
               <Flex.Item
                 className="nav-item"
                 key={item.id}
-                onClick={item => {
+                onClick={() => {
                   this.props.history.push(item.path);
                 }}
               >
@@ -110,6 +128,29 @@ class Index extends React.Component {
           })}
         </Flex>
         {/* 四个宫格 */}
+        <Flex className="group" justify="between">
+          <h3>{"租房小组"}</h3>
+          <span>{"更多"}</span>
+        </Flex>
+        <Grid
+          className="grid"
+          data={this.state.gridList}
+          columnNum={2}
+          hasLine={false}
+          square={false}
+          renderItem={dataItem => (
+            <div className="grid-item">
+              <div>
+                <h5>{dataItem.title}</h5>
+                <span>{dataItem.desc}</span>
+              </div>
+              <img
+                src={"http://localhost:8080"+dataItem.imgSrc}
+                alt=""
+              />
+            </div>
+          )}
+        />
         {/* 列表资讯 */}
       </div>
     );
