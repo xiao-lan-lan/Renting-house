@@ -28,7 +28,7 @@ const navs = [
     id: 3,
     img: navimg3,
     name: "地图找房",
-    path: "/home/c"
+    path: "/map"
   },
   {
     id: 4,
@@ -107,7 +107,9 @@ class Index extends React.Component {
               <Icon
                 key="1"
                 type="ellipsis"
-                onClick={() => console.log("11111111111111")}
+                onClick={() => {
+                  this.props.history.push('/map')
+                } }
               />
             ]}
           >

@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 // 一级路由组件
 import Home from "./pages/home";
 import citylist from "./pages/cityList";
+import Map from './pages/map';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           
           {/* home中配置二级路由组件 */}
           <Route path="/home" component={Home} />
+          <Route path="/map" component={Map} />
           <Route path="/citylist" component={citylist} />
         </div>
       </Router>
