@@ -1,6 +1,6 @@
 import React from "react";
 // 请求
-import { getSwiper, getGrid,getNews } from "./api.js";
+import { getSwiper, getGrid, getNews } from "./api.js";
 import "./index.scss";
 // 导航图片
 import navimg1 from "../../assets/images/nav-1.png";
@@ -8,7 +8,7 @@ import navimg2 from "../../assets/images/nav-2.png";
 import navimg3 from "../../assets/images/nav-3.png";
 import navimg4 from "../../assets/images/nav-4.png";
 // antd组件
-import { Carousel, Flex, Grid } from "antd-mobile";
+import { Carousel, Flex, Grid, NavBar, Icon } from "antd-mobile";
 
 // 导航菜单数据
 const navs = [
@@ -46,11 +46,11 @@ const navs = [
 
 class Index extends React.Component {
   state = {
-    swiperList: [],//轮播图
+    swiperList: [], //轮播图
     imgHeight: 176,
     isloading: false,
-    gridList:[],//宫格
-    newsList:[]//资讯
+    gridList: [], //宫格
+    newsList: [] //资讯
   };
 
   // 请求轮播图
@@ -68,33 +68,54 @@ class Index extends React.Component {
 
   // 请求宫格数据
   loadGrid = async () => {
-    const {data} = await getGrid();
-    if (data.status===200) {
+    const { data } = await getGrid();
+    if (data.status === 200) {
       this.setState({
-        gridList:data.body
-      })
+        gridList: data.body
+      });
     }
   };
 
   // 请求新闻资讯
   loadNews = async () => {
-    const {data} = await getNews();
-    if (data.status===200) {
+    const { data } = await getNews();
+    if (data.status === 200) {
       this.setState({
-        newsList:data.body
-      })
+        newsList: data.body
+      });
     }
-  }
+  };
 
   componentDidMount() {
     this.loadSwiper();
     this.loadGrid();
-    this.loadNews()
+    this.loadNews();
   }
 
   render() {
     return (
       <div className="home-index">
+        {/* 顶部搜索 */}
+        <div>
+          <NavBar
+            className="navbar"
+            mode="light"
+            leftContent="北京"
+            icon={<Icon type="down" />}
+            onLeftClick={() => console.log("onLeftClick")}
+            rightContent={[
+              <Icon
+                key="1"
+                type="ellipsis"
+                onClick={() => console.log("11111111111111")}
+              />
+            ]}
+          >
+            <Icon type="search" className="navbar-search"/>
+            <div className="navbar-search">{"请输入小区或地址"}</div>
+          </NavBar>
+        </div>
+
         {/* 轮播图 */}
         <Carousel autoplay={this.state.isloading} infinite>
           {this.state.swiperList.map(swiper => (
@@ -121,7 +142,6 @@ class Index extends React.Component {
           ))}
         </Carousel>
 
-        {/* 顶部搜索 */}
         {/* 四个导航 */}
         <Flex className="navs">
           {navs.map(item => {
@@ -139,6 +159,7 @@ class Index extends React.Component {
             );
           })}
         </Flex>
+
         {/* 四个宫格 */}
         <Flex className="group" justify="between">
           <h3>{"租房小组"}</h3>
@@ -156,31 +177,29 @@ class Index extends React.Component {
                 <h5>{dataItem.title}</h5>
                 <span>{dataItem.desc}</span>
               </div>
-              <img
-                src={"http://localhost:8080"+dataItem.imgSrc}
-                alt=""
-              />
+              <img src={"http://localhost:8080" + dataItem.imgSrc} alt="" />
             </div>
           )}
         />
+
         {/* 列表资讯 */}
         <Flex className="group" justify="between">
           <h3>{"最新资讯"}</h3>
         </Flex>
         <div className="news">
-          {this.state.newsList.map((news) => {
+          {this.state.newsList.map(news => {
             return (
               <div className="news-item" key={news.id}>
-                <img src={'http://localhost:8080'+news.imgSrc} alt="" />
+                <img src={"http://localhost:8080" + news.imgSrc} alt="" />
                 <div>
-                    <p>{news.title}</p>
-                    <div>
-                      <span>{news.from}</span>
-                      <span>{news.date}</span>
-                    </div>
+                  <p>{news.title}</p>
+                  <div>
+                    <span>{news.from}</span>
+                    <span>{news.date}</span>
+                  </div>
                 </div>
               </div>
-            )
+            );
           })}
         </div>
       </div>
