@@ -7,3 +7,11 @@ export const getCityList = () => {
     url: "/area/city?level=1"
   });
 };
+
+// 热门城市
+export const getHotList = () => {
+  return http({
+    method: "get",
+    url: "/area/hot"
+  });
+};

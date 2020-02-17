@@ -1,16 +1,20 @@
 import React from "react";
 import { NavBar, Icon } from "antd-mobile";
-import { getCityList } from "./api";
+import { getCityList, getHotList } from "./api";
 
 class CityList extends React.Component {
-  // 获取所有城市
+  // 获取城市列表
   getCityList = async () => {
+    // 获取所有城市
     const { data } = await getCityList();
-    console.log(data);
-    if (data.status === 200) {
-      const {cityList,cityIndex} = this.formatCity(data.body);
-      console.log(cityList,cityIndex);
-    }
+    const { cityList, cityIndex } = this.formatCity(data.body);
+
+    // 获取热门城市
+    const { data: dataHot } = await getHotList();
+    cityList["hot"] = dataHot.body;
+    cityIndex.unshift("Hot");
+
+    console.log(cityList, cityIndex);
   };
 
   // 二次处理所有城市接口返回数据格式
@@ -19,15 +23,15 @@ class CityList extends React.Component {
     let cityIndex = [];
 
     citydata.forEach(city => {
-      const letter = city.short.slice(0,1)
+      const letter = city.short.slice(0, 1);
       if (!Object.keys(cityList).includes(letter)) {
-        cityList[letter]=[city]
-      }else {
-        cityList[letter].push(city)
+        cityList[letter] = [city];
+      } else {
+        cityList[letter].push(city);
       }
-    })
+    });
 
-    cityIndex = Object.keys(cityList).sort()
+    cityIndex = Object.keys(cityList).sort();
 
     return {
       cityList,
