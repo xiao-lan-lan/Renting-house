@@ -1,6 +1,7 @@
 import React from "react";
 import { NavBar, Icon } from "antd-mobile";
 import { getCityList, getHotList } from "./api";
+import { getCurrentCity } from "../../utils/getCurrentCity";
 
 class CityList extends React.Component {
   // 获取城市列表
@@ -14,6 +15,12 @@ class CityList extends React.Component {
     cityList["hot"] = dataHot.body;
     cityIndex.unshift("Hot");
 
+    // 获取定位城市
+    getCurrentCity((currcity) => {
+      cityList['#']=[currcity];
+      cityIndex.unshift("#");
+    })
+    
     console.log(cityList, cityIndex);
   };
 
