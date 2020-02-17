@@ -55,13 +55,13 @@ class Home extends React.Component {
               key="Life"
               icon={<i className="iconfont icon-ind"></i>}
               selectedIcon={<i className="iconfont icon-ind"></i>}
-              selected={this.state.selectedTab === "/home/index"}
+              selected={this.state.selectedTab === "/home"}
               onPress={() => {
                 // 路由跳转
-                this.props.history.push('/home/index')
+                this.props.history.push('/home')
                 // 选中tabbae
                 this.setState({
-                  selectedTab: "/home/index"
+                  selectedTab: "/home"
                 });
               }}
               data-seed="logId"

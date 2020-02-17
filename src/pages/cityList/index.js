@@ -1,5 +1,5 @@
 import React from "react";
-import { NavBar, Icon } from "antd-mobile";
+import { NavBar, Icon,Toast } from "antd-mobile";
 import { getCityList, getHotList } from "./api";
 import { getCurrentCity } from "../../utils/getCurrentCity";
 import "./index.scss";
@@ -74,8 +74,15 @@ class CityList extends React.Component {
               className="name"
               key={city.value}
               onClick={() => {
-                window.localStorage.setItem('hkzf_current_city',JSON.stringify(city))
-                this.props.history.goBack()
+                if (["北京", "上海", "广州", "深圳"].includes(city.label)) {
+                  window.localStorage.setItem(
+                    "hkzf_current_city",
+                    JSON.stringify(city)
+                  );
+                  this.props.history.goBack();
+                }else {
+                  Toast.info('该城市暂无房源 !!!', 2);
+                }
               }}
             >
               {city.label}
