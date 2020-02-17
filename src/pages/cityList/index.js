@@ -2,6 +2,35 @@ import React from "react";
 import { NavBar, Icon } from "antd-mobile";
 import { getCityList, getHotList } from "./api";
 import { getCurrentCity } from "../../utils/getCurrentCity";
+import './index.scss';
+// virtualized 列表组件
+import { List, AutoSizer } from "react-virtualized";
+
+const list = [
+  '111111111111',
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn",
+  "Brian Vaughn"
+  // And so on...
+];
 
 class CityList extends React.Component {
   // 获取城市列表
@@ -16,11 +45,11 @@ class CityList extends React.Component {
     cityIndex.unshift("Hot");
 
     // 获取定位城市
-    getCurrentCity((currcity) => {
-      cityList['#']=[currcity];
+    getCurrentCity(currcity => {
+      cityList["#"] = [currcity];
       cityIndex.unshift("#");
-    })
-    
+    });
+
     console.log(cityList, cityIndex);
   };
 
@@ -46,13 +75,27 @@ class CityList extends React.Component {
     };
   };
 
+  rowRenderer = ({
+    key, // Unique key within array of rows
+    index, // Index of row within collection
+    isScrolling, // The List is currently being scrolled
+    isVisible, // This row is visible within the List (eg it is not an overscanned row)
+    style // Style object to be applied to row (to position it)
+  }) => {
+    return (
+      <div key={key} style={style}>
+        {list[index]}
+      </div>
+    );
+  };
+
   componentDidMount() {
     this.getCityList();
   }
 
   render() {
     return (
-      <div className="map">
+      <div className="citylist">
         {/* 顶部返回导航 */}
         <NavBar
           mode="dark"
@@ -61,6 +104,19 @@ class CityList extends React.Component {
         >
           城市选择
         </NavBar>
+
+        {/* 城市列表 */}
+        <AutoSizer>
+          {({ height, width }) => (
+            <List
+              height={height}
+              rowCount={list.length}
+              rowHeight={20}
+              rowRenderer={this.rowRenderer}
+              width={width}
+            />
+          )}
+        </AutoSizer>
       </div>
     );
   }
