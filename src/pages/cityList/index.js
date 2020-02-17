@@ -33,6 +33,11 @@ const list = [
 ];
 
 class CityList extends React.Component {
+  state = {
+    cityList:{},//字母对应城市
+    cityIndex:[]//字母数组
+  }
+
   // 获取城市列表
   getCityList = async () => {
     // 获取所有城市
@@ -42,7 +47,7 @@ class CityList extends React.Component {
     // 获取热门城市
     const { data: dataHot } = await getHotList();
     cityList["hot"] = dataHot.body;
-    cityIndex.unshift("Hot");
+    cityIndex.unshift("hot");
 
     // 获取定位城市
     getCurrentCity(currcity => {
@@ -50,7 +55,10 @@ class CityList extends React.Component {
       cityIndex.unshift("#");
     });
 
-    console.log(cityList, cityIndex);
+    this.setState({
+      cityList,
+      cityIndex
+    })
   };
 
   // 二次处理所有城市接口返回数据格式
@@ -75,6 +83,7 @@ class CityList extends React.Component {
     };
   };
 
+  // 渲染列表行
   rowRenderer = ({
     key, // Unique key within array of rows
     index, // Index of row within collection
@@ -83,11 +92,19 @@ class CityList extends React.Component {
     style // Style object to be applied to row (to position it)
   }) => {
     return (
-      <div key={key} style={style}>
-        {list[index]}
+      <div key={key} style={style} className="city">
+        <div className="title">A</div>
+        <div className="name">安庆</div>
       </div>
     );
   };
+
+  // 计算行高:高=字母高度+每个城市高度*城市个数
+  rowHeight = ({index}) => {
+    const letter = this.state.cityIndex[index];
+    const H = 36 + 50*this.state.cityList[letter].length;
+    return H
+  }
 
   componentDidMount() {
     this.getCityList();
@@ -110,8 +127,8 @@ class CityList extends React.Component {
           {({ height, width }) => (
             <List
               height={height}
-              rowCount={list.length}
-              rowHeight={20}
+              rowCount={this.state.cityIndex.length}
+              rowHeight={this.rowHeight}
               rowRenderer={this.rowRenderer}
               width={width}
             />
