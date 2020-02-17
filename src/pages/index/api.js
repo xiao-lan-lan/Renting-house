@@ -9,18 +9,18 @@ export const getSwiper = () => {
 };
 
 // 宫格
-export const getGrid = () => {
+export const getGrid = (cityvalue) => {
   return http({
     method: "get",
-    url: "/home/groups?area=AREA%7C88cff55c-aaa4-e2e0"
+    url: "/home/groups?area="+cityvalue
   });
 };
 
 // 新闻
-export const getNews = () => {
+export const getNews = (cityvalue) => {
   return http({
     method: "get",
-    url: "/home/news?area=AREA%7C88cff55c-aaa4-e2e0"
+    url: "/home/news?area="+cityvalue
   });
 };
 

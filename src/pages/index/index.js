@@ -69,7 +69,7 @@ class Index extends React.Component {
 
   // 请求宫格数据
   loadGrid = async () => {
-    const { data } = await getGrid();
+    const { data } = await getGrid(this.state.currentCity.cityValue);
     if (data.status === 200) {
       this.setState({
         gridList: data.body
@@ -79,7 +79,7 @@ class Index extends React.Component {
 
   // 请求新闻资讯
   loadNews = async () => {
-    const { data } = await getNews();
+    const { data } = await getNews(this.state.currentCity.cityValue);
     if (data.status === 200) {
       this.setState({
         newsList: data.body
@@ -145,8 +145,7 @@ class Index extends React.Component {
             className="navbar"
             mode="light"
             leftContent={this.state.currentCity.cityName}
-            icon={<Icon type="down" />}
-            onLeftClick={() => console.log("onLeftClick")}
+            onLeftClick={() => this.props.history.push('/citylist')}
             rightContent={[
               <Icon
                 key="1"

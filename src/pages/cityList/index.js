@@ -1,8 +1,20 @@
-import React from 'react'
+import React from 'react';
+import { NavBar, Icon } from "antd-mobile";
 
 class CityList extends React.Component {
   render() {
-    return <h1>Hello,CityList</h1>;
+    return (
+      <div className="map">
+        {/* 顶部返回导航 */}
+        <NavBar
+          mode="dark"
+          icon={<Icon type="left" />}
+          onLeftClick={() => this.props.history.goBack()}
+        >
+          城市选择
+        </NavBar>
+      </div>
+    );
   }
 }
 
