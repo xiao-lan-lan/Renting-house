@@ -69,7 +69,18 @@ class CityList extends React.Component {
       <div key={key} style={style} className="city">
         <div className="title">{letter.toUpperCase()}</div>
         {this.state.cityList[letter].map(city => {
-          return <div className="name" key={city.value}>{city.label}</div>;
+          return (
+            <div
+              className="name"
+              key={city.value}
+              onClick={() => {
+                window.localStorage.setItem('hkzf_current_city',JSON.stringify(city))
+                this.props.history.goBack()
+              }}
+            >
+              {city.label}
+            </div>
+          );
         })}
       </div>
     );

@@ -1,6 +1,6 @@
 import React from "react";
 // 请求
-import { getSwiper, getGrid, getNews, getCityInfo } from "./api.js";
+import { getSwiper, getGrid, getNews } from "./api.js";
 import "./index.scss";
 // 导航图片
 import navimg1 from "../../assets/images/nav-1.png";
@@ -9,6 +9,8 @@ import navimg3 from "../../assets/images/nav-3.png";
 import navimg4 from "../../assets/images/nav-4.png";
 // antd组件
 import { Carousel, Flex, Grid, NavBar, Icon } from "antd-mobile";
+// 获取定位城市方法
+import { getCurrentCity } from "../../utils/getCurrentCity";
 
 // 导航菜单数据
 const navs = [
@@ -51,7 +53,7 @@ class Index extends React.Component {
     isloading: false,
     gridList: [], //宫格
     newsList: [], //资讯
-    currentCity: {cityName:"",cityValue:""} //定位当前城市
+    currentCity: { cityName: "", cityValue: "" } //定位当前城市
   };
 
   // 请求轮播图
@@ -89,44 +91,17 @@ class Index extends React.Component {
 
   // 定位当前城市
   getCurrentCity = () => {
-    const { BMap } = window;
-
-    // 1.实例化定位当前城市方法
-    const myCity = new BMap.LocalCity();
-    const that = this;
-
-    // 3.定位myFun函数
-    async function myFun(result) {
-
-      // 4.拿到城市名字
-      const cityName = result.name;
-
-      // 6.调接口，获取城市id
-      const {data} = await getCityInfo(cityName);
-
-      if (data.status===200) {
-        // 5.修改状态数据，注意this指向
-      that.setState(() => {
+    // 封装的方法
+    getCurrentCity(currcity => {
+      this.setState(() => {
         return {
-          currentCity: {cityName:data.body.label,cityValue:data.body.value}
+          currentCity: {
+            cityName: currcity.label,
+            cityValue: currcity.value
+          }
         };
       });
-      }
-    }
-    // 2.调用get方法传入myFun函数，get方法会给myFun传入一个定位数据的实参对象
-    myCity.get(myFun);
-
-    // 原生获取定位经纬度
-    // if (navigator.geolocation) {
-    //   //判断是否支持Geolocation API
-    //   navigator.geolocation.getCurrentPosition(showPosition);
-    // }
-    // function showPosition(position) {
-    //   console.log(position);
-    //   var lat = position.coords.latitude; //获取纬度
-    //   var lon = position.coords.longitude; //获取经度
-    //   alert("您的纬度是:" + lat + "，经度是：" + lon);
-    // }
+    });
   };
 
   componentDidMount() {
@@ -145,7 +120,7 @@ class Index extends React.Component {
             className="navbar"
             mode="light"
             leftContent={this.state.currentCity.cityName}
-            onLeftClick={() => this.props.history.push('/citylist')}
+            onLeftClick={() => this.props.history.push("/citylist")}
             rightContent={[
               <Icon
                 key="1"
