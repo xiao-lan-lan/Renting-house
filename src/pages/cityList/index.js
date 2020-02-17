@@ -2,41 +2,15 @@ import React from "react";
 import { NavBar, Icon } from "antd-mobile";
 import { getCityList, getHotList } from "./api";
 import { getCurrentCity } from "../../utils/getCurrentCity";
-import './index.scss';
+import "./index.scss";
 // virtualized 列表组件
 import { List, AutoSizer } from "react-virtualized";
 
-const list = [
-  '111111111111',
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn",
-  "Brian Vaughn"
-  // And so on...
-];
-
 class CityList extends React.Component {
   state = {
-    cityList:{},//字母对应城市
-    cityIndex:[]//字母数组
-  }
+    cityList: {}, //字母对应城市
+    cityIndex: [] //字母数组
+  };
 
   // 获取城市列表
   getCityList = async () => {
@@ -58,7 +32,7 @@ class CityList extends React.Component {
     this.setState({
       cityList,
       cityIndex
-    })
+    });
   };
 
   // 二次处理所有城市接口返回数据格式
@@ -87,24 +61,26 @@ class CityList extends React.Component {
   rowRenderer = ({
     key, // Unique key within array of rows
     index, // Index of row within collection
-    isScrolling, // The List is currently being scrolled
-    isVisible, // This row is visible within the List (eg it is not an overscanned row)
     style // Style object to be applied to row (to position it)
   }) => {
+    const letter = this.state.cityIndex[index];
+
     return (
       <div key={key} style={style} className="city">
-        <div className="title">A</div>
-        <div className="name">安庆</div>
+        <div className="title">{letter.toUpperCase()}</div>
+        {this.state.cityList[letter].map(city => {
+          return <div className="name" key={city.value}>{city.label}</div>;
+        })}
       </div>
     );
   };
 
   // 计算行高:高=字母高度+每个城市高度*城市个数
-  rowHeight = ({index}) => {
+  rowHeight = ({ index }) => {
     const letter = this.state.cityIndex[index];
-    const H = 36 + 50*this.state.cityList[letter].length;
-    return H
-  }
+    const H = 36 + 50 * this.state.cityList[letter].length;
+    return H;
+  };
 
   componentDidMount() {
     this.getCityList();
