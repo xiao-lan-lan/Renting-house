@@ -50,7 +50,8 @@ class Index extends React.Component {
     imgHeight: 176,
     isloading: false,
     gridList: [], //宫格
-    newsList: [] //资讯
+    newsList: [] ,//资讯
+    currentCity:''//定位当前城市
   };
 
   // 请求轮播图
@@ -86,10 +87,44 @@ class Index extends React.Component {
     }
   };
 
+  // 定位当前城市
+  getCurrentCity = () => {
+    const {BMap} = window;
+    // 1.实例化定位当前城市方法
+    const myCity = new BMap.LocalCity();
+    const that = this;
+    // 3.定位myFun函数
+    function myFun(result) {
+      // 4.拿到城市名字
+      const cityName = result.name;
+      // 5.修改状态数据，注意this指向
+      that.setState(() => {
+        return {
+          currentCity:cityName
+        }
+      })
+    }
+    // 2.调用get方法传入myFun函数，get方法会给myFun传入一个定位数据的实参对象
+    myCity.get(myFun);
+
+    // 原生获取定位经纬度
+    // if (navigator.geolocation) {
+    //   //判断是否支持Geolocation API
+    //   navigator.geolocation.getCurrentPosition(showPosition);
+    // }
+    // function showPosition(position) {
+    //   console.log(position);
+    //   var lat = position.coords.latitude; //获取纬度
+    //   var lon = position.coords.longitude; //获取经度
+    //   alert("您的纬度是:" + lat + "，经度是：" + lon);
+    // }
+  };
+
   componentDidMount() {
     this.loadSwiper();
     this.loadGrid();
     this.loadNews();
+    this.getCurrentCity();
   }
 
   render() {
@@ -100,7 +135,7 @@ class Index extends React.Component {
           <NavBar
             className="navbar"
             mode="light"
-            leftContent="北京"
+            leftContent={this.state.currentCity}
             icon={<Icon type="down" />}
             onLeftClick={() => console.log("onLeftClick")}
             rightContent={[
@@ -108,12 +143,12 @@ class Index extends React.Component {
                 key="1"
                 type="ellipsis"
                 onClick={() => {
-                  this.props.history.push('/map')
-                } }
+                  this.props.history.push("/map");
+                }}
               />
             ]}
           >
-            <Icon type="search" className="navbar-search"/>
+            <Icon type="search" className="navbar-search" />
             <div className="navbar-search">{"请输入小区或地址"}</div>
           </NavBar>
         </div>
