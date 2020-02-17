@@ -1,6 +1,6 @@
 import React from "react";
 // 请求
-import { getSwiper, getGrid, getNews } from "./api.js";
+import { getSwiper, getGrid, getNews, getCityInfo } from "./api.js";
 import "./index.scss";
 // 导航图片
 import navimg1 from "../../assets/images/nav-1.png";
@@ -50,8 +50,8 @@ class Index extends React.Component {
     imgHeight: 176,
     isloading: false,
     gridList: [], //宫格
-    newsList: [] ,//资讯
-    currentCity:''//定位当前城市
+    newsList: [], //资讯
+    currentCity: {cityName:"",cityValue:""} //定位当前城市
   };
 
   // 请求轮播图
@@ -89,20 +89,29 @@ class Index extends React.Component {
 
   // 定位当前城市
   getCurrentCity = () => {
-    const {BMap} = window;
+    const { BMap } = window;
+
     // 1.实例化定位当前城市方法
     const myCity = new BMap.LocalCity();
     const that = this;
+
     // 3.定位myFun函数
-    function myFun(result) {
+    async function myFun(result) {
+
       // 4.拿到城市名字
       const cityName = result.name;
-      // 5.修改状态数据，注意this指向
+
+      // 6.调接口，获取城市id
+      const {data} = await getCityInfo(cityName);
+
+      if (data.status===200) {
+        // 5.修改状态数据，注意this指向
       that.setState(() => {
         return {
-          currentCity:cityName
-        }
-      })
+          currentCity: {cityName:data.body.label,cityValue:data.body.value}
+        };
+      });
+      }
     }
     // 2.调用get方法传入myFun函数，get方法会给myFun传入一个定位数据的实参对象
     myCity.get(myFun);
@@ -135,7 +144,7 @@ class Index extends React.Component {
           <NavBar
             className="navbar"
             mode="light"
-            leftContent={this.state.currentCity}
+            leftContent={this.state.currentCity.cityName}
             icon={<Icon type="down" />}
             onLeftClick={() => console.log("onLeftClick")}
             rightContent={[

@@ -23,3 +23,11 @@ export const getNews = () => {
     url: "/home/news?area=AREA%7C88cff55c-aaa4-e2e0"
   });
 };
+
+// 城市id
+export const getCityInfo = (cityname) => {
+  return http({
+    method: "get",
+    url: "/area/info?name="+cityname
+  });
+};
