@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import styles from "./index.module.css";
 
-function FilterFooter({ className, style, onCancle, onSave }) {
+function FilterFooter({ className, style, onCancle, onSave,PickerValue }) {
   return (
     <Flex style={style} className={[styles.root, className || ""].join(" ")}>
       {/* 取消按钮 */}
@@ -22,7 +22,7 @@ function FilterFooter({ className, style, onCancle, onSave }) {
       <span
         className={[styles.btn, styles.ok].join(" ")}
         onClick={() => {
-          onSave();
+          onSave(PickerValue);
         }}
       >
         确定

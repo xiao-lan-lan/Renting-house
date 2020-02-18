@@ -19,7 +19,8 @@ export default class Filter extends Component {
   state = {
     titleSelectedState, //选中的筛选栏
     opentype: "", //打开弹层
-    HousePickerData: [] //筛选条件数据
+    HousePickerData:[] ,//筛选条件数据
+    PickerValue:null//选中的条件
   };
 
   // 子传父，点击高亮
@@ -44,13 +45,16 @@ export default class Filter extends Component {
     });
   };
 
-  // 点击确定，关闭弹层
-  onSave = () => {
+  // 点击确定，关闭弹层,拿到筛选的数据，
+  onSave = (PickerValue) => {
     this.setState(() => {
       return {
-        opentype: ""
+        opentype: "",
+        PickerValue
       };
     });
+    console.log(PickerValue);
+    
   };
 
   // 获取房屋筛选条件
@@ -90,10 +94,12 @@ export default class Filter extends Component {
             this.state.opentype === "mode" ||
             this.state.opentype === "price") && (
             <FilterPicker
+              key={this.state.opentype}
               onCancle={this.onCancle}
               onSave={this.onSave}
               HousePickerData={this.state.HousePickerData}
               opentype={this.state.opentype}
+              PickerValue={this.state.PickerValue}
             />
           )}
 

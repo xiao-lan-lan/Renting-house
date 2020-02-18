@@ -5,10 +5,12 @@ import { PickerView } from "antd-mobile";
 import FilterFooter from "../../../../components/FilterFooter";
 
 export default class FilterPicker extends Component {
+  state = {
+    PickerValue: ""
+  };
   // 渲染筛选弹出层
   renderFilterPicker = () => {
     const { HousePickerData, opentype } = this.props;
-    console.log(HousePickerData, opentype);
 
     let data;
     let cols = 1;
@@ -26,8 +28,36 @@ export default class FilterPicker extends Component {
       default:
         break;
     }
-    return <PickerView data={data} value={null} cols={cols} />;
+    return (
+      <PickerView
+        data={data}
+        value={this.state.PickerValue}
+        cols={cols}
+        onChange={this.changePicker}
+      />
+    );
   };
+
+  // change 筛选
+  changePicker = value => {
+    this.setState(() => {
+      return {
+        PickerValue: value
+      };
+    });
+  };
+
+  // 设置选中的筛选条件
+  initPickerValue = () => {
+    this.setState({
+      PickerValue:this.props.PickerValue
+    })
+  }
+
+  componentDidMount() {
+    this.initPickerValue()
+  }
+
   render() {
     return (
       <>
@@ -38,6 +68,7 @@ export default class FilterPicker extends Component {
         <FilterFooter
           onCancle={this.props.onCancle}
           onSave={this.props.onSave}
+          PickerValue={this.state.PickerValue}
         />
       </>
     );
