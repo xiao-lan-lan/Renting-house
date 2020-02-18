@@ -105,7 +105,10 @@ export default class Filter extends Component {
 
           {/* 最后一个菜单对应的内容： */}
           {this.state.opentype === "more" && (
-            <FilterMore onCancle={this.onCancle} />
+            <FilterMore
+              onCancle={this.onCancle}
+              HousePickerData={this.state.HousePickerData}
+            />
           )}
         </div>
       </div>
