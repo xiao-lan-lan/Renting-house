@@ -15,14 +15,19 @@ const titleSelectedState = {
 };
 export default class Filter extends Component {
   state = {
-    titleSelectedState
+    titleSelectedState, //选中的筛选栏
+    opentype: "" //打开弹层
   };
 
   // 子传父，点击高亮
   onTitleClick = type => {
     this.setState(() => {
       return {
-        titleSelectedState: { ...titleSelectedState, [type]: true }
+        titleSelectedState: {
+          ...titleSelectedState,
+          [type]: true
+        },
+        opentype: type
       };
     });
   };
@@ -31,7 +36,9 @@ export default class Filter extends Component {
     return (
       <div className={styles.root}>
         {/* 前三个菜单的遮罩层 */}
-        {/* <div className={styles.mask} /> */}
+        {(this.state.opentype === "area" ||
+          this.state.opentype === "mode" ||
+          this.state.opentype === "price") && <div className={styles.mask} />}
 
         <div className={styles.content}>
           {/* 标题栏 */}
@@ -41,7 +48,9 @@ export default class Filter extends Component {
           />
 
           {/* 前三个菜单对应的内容： */}
-          {/* <FilterPicker /> */}
+          {(this.state.opentype === "area" ||
+            this.state.opentype === "mode" ||
+            this.state.opentype === "price") && <FilterPicker />}
 
           {/* 最后一个菜单对应的内容： */}
           {/* <FilterMore /> */}
