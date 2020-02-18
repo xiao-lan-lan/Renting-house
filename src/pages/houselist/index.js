@@ -1,9 +1,22 @@
 import React from 'react'
 
-class HouseList extends React.Component {
+import { Flex } from 'antd-mobile'
+
+import Filter from './components/Filter'
+
+// 导入样式
+import styles from './index.module.css'
+
+// 获取当前定位城市信息
+const { label } = JSON.parse(window.localStorage.getItem('hkzf_current_city'))
+
+export default class HouseList extends React.Component {
   render() {
-    return <h1>Hello,HouseList</h1>;
+    return (
+      <div className={styles.root}>
+        {/* 条件筛选栏 */}
+        <Filter />
+      </div>
+    )
   }
 }
-
-export default HouseList
