@@ -1,12 +1,32 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
-import FilterTitle from '../FilterTitle'
-import FilterPicker from '../FilterPicker'
-import FilterMore from '../FilterMore'
+import FilterTitle from "../FilterTitle";
+import FilterPicker from "../FilterPicker";
+import FilterMore from "../FilterMore";
 
-import styles from './index.module.css'
+import styles from "./index.module.css";
 
+// 条件筛选栏标题数组：
+const titleSelectedState = {
+  area: false,
+  mode: true,
+  price: true,
+  more: false
+};
 export default class Filter extends Component {
+  state = {
+    titleSelectedState
+  };
+
+  // 子传父，点击高亮
+  onTitleClick = type => {
+    this.setState(() => {
+      return {
+        titleSelectedState: { ...titleSelectedState, [type]: true }
+      };
+    });
+  };
+
   render() {
     return (
       <div className={styles.root}>
@@ -15,7 +35,10 @@ export default class Filter extends Component {
 
         <div className={styles.content}>
           {/* 标题栏 */}
-          <FilterTitle />
+          <FilterTitle
+            titleSelectedState={this.state.titleSelectedState}
+            onTitleClick={this.onTitleClick}
+          />
 
           {/* 前三个菜单对应的内容： */}
           {/* <FilterPicker /> */}
@@ -24,6 +47,6 @@ export default class Filter extends Component {
           {/* <FilterMore /> */}
         </div>
       </div>
-    )
+    );
   }
 }

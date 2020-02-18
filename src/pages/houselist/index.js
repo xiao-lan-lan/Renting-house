@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react";
 
-import { Flex } from 'antd-mobile'
+import { Flex } from "antd-mobile";
 
-import Filter from './components/Filter'
+import Filter from "./components/Filter";
 
 // 导入样式
-import styles from './index.module.css'
+import styles from "./index.module.css";
 
 // 获取当前定位城市信息
-const { label } = JSON.parse(window.localStorage.getItem('hkzf_current_city'))
+const { label } = JSON.parse(window.localStorage.getItem("hkzf_current_city"));
 
 export default class HouseList extends React.Component {
   render() {
@@ -17,6 +17,6 @@ export default class HouseList extends React.Component {
         {/* 条件筛选栏 */}
         <Filter />
       </div>
-    )
+    );
   }
 }
