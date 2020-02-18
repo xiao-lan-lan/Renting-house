@@ -32,13 +32,33 @@ export default class Filter extends Component {
     });
   };
 
+  // 点击取消按钮和蒙层，关闭弹层
+  onCancle = () => {
+    this.setState(() => {
+      return {
+        opentype: ""
+      };
+    });
+  };
+
+  // 点击确定，关闭弹层
+  onSave = () => {
+    this.setState(() => {
+      return {
+        opentype: ""
+      };
+    });
+  };
+
   render() {
     return (
       <div className={styles.root}>
         {/* 前三个菜单的遮罩层 */}
         {(this.state.opentype === "area" ||
           this.state.opentype === "mode" ||
-          this.state.opentype === "price") && <div className={styles.mask} />}
+          this.state.opentype === "price") && (
+          <div className={styles.mask} onClick={this.onCancle} />
+        )}
 
         <div className={styles.content}>
           {/* 标题栏 */}
@@ -50,7 +70,9 @@ export default class Filter extends Component {
           {/* 前三个菜单对应的内容： */}
           {(this.state.opentype === "area" ||
             this.state.opentype === "mode" ||
-            this.state.opentype === "price") && <FilterPicker />}
+            this.state.opentype === "price") && (
+            <FilterPicker onCancle={this.onCancle} onSave={this.onSave} />
+          )}
 
           {/* 最后一个菜单对应的内容： */}
           {/* <FilterMore /> */}
