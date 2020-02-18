@@ -11,16 +11,17 @@ import { getHousesCondition } from "./api";
 // 条件筛选栏标题数组：
 const titleSelectedState = {
   area: false,
-  mode: true,
-  price: true,
+  mode: false,
+  price: false,
   more: false
 };
+
 export default class Filter extends Component {
   state = {
     titleSelectedState, //选中的筛选栏
     opentype: "", //打开弹层
-    HousePickerData:[] ,//筛选条件数据
-    PickerValue:null//选中的条件
+    HousePickerData: [], //筛选条件数据
+    PickerValue: null //选中的条件
   };
 
   // 子传父，点击高亮
@@ -46,7 +47,7 @@ export default class Filter extends Component {
   };
 
   // 点击确定，关闭弹层,拿到筛选的数据，
-  onSave = (PickerValue) => {
+  onSave = PickerValue => {
     this.setState(() => {
       return {
         opentype: "",
@@ -54,7 +55,6 @@ export default class Filter extends Component {
       };
     });
     console.log(PickerValue);
-    
   };
 
   // 获取房屋筛选条件
@@ -104,7 +104,9 @@ export default class Filter extends Component {
           )}
 
           {/* 最后一个菜单对应的内容： */}
-          {/* <FilterMore /> */}
+          {this.state.opentype === "more" && (
+            <FilterMore onCancle={this.onCancle} />
+          )}
         </div>
       </div>
     );

@@ -1,23 +1,28 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
-import FilterFooter from '../../../../components/FilterFooter'
+import FilterFooter from "../../../../components/FilterFooter";
 
-import styles from './index.module.css'
+import styles from "./index.module.css";
 
 export default class FilterMore extends Component {
   // 渲染标签
   renderFilters() {
     // 高亮类名： styles.tagActive
     return (
-      <span className={[styles.tag, styles.tagActive].join(' ')}>东北</span>
-    )
+      <span className={[styles.tag, styles.tagActive].join(" ")}>东北</span>
+    );
   }
 
   render() {
     return (
       <div className={styles.root}>
         {/* 遮罩层 */}
-        <div className={styles.mask} />
+        <div
+          className={styles.mask}
+          onClick={() => {
+            this.props.onCancle();
+          }}
+        />
 
         {/* 条件内容 */}
         <div className={styles.tags}>
@@ -37,8 +42,8 @@ export default class FilterMore extends Component {
         </div>
 
         {/* 底部按钮 */}
-        <FilterFooter className={styles.footer} />
+        <FilterFooter className={styles.footer} onCancle={this.props.onCancle}/>
       </div>
-    )
+    );
   }
 }
