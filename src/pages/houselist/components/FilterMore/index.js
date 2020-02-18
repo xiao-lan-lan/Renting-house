@@ -55,6 +55,7 @@ export default class FilterMore extends Component {
         <FilterFooter
           className={styles.footer}
           onCancle={this.props.onCancle}
+          onSave={this.props.onSave}
         />
       </div>
     );

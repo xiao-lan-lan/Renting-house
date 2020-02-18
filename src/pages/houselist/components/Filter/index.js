@@ -107,6 +107,7 @@ export default class Filter extends Component {
           {this.state.opentype === "more" && (
             <FilterMore
               onCancle={this.onCancle}
+              onSave={this.onSave}
               HousePickerData={this.state.HousePickerData}
             />
           )}
