@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Home from "./pages/home";
 import citylist from "./pages/cityList";
 import Map from './pages/map';
+import HouseDetail from './pages/HouseDetail';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/home" component={Home} />
           <Route path="/map" component={Map} />
           <Route path="/citylist" component={citylist} />
+          <Route path="/detail/:id" component={HouseDetail} />
         </div>
       </Router>
     </div>

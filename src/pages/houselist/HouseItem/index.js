@@ -9,12 +9,13 @@ import PropTypes from 'prop-types'
 import styles from './index.module.css'
 
 function HouseItem(props) {
-  const {house} = props;
-  const { houseImg, title, desc, tags, price, onClick, style }=house;
-  console.log(houseImg);
+  console.log(props);
+  const {house,onClick} = props
+  const { houseImg, title, desc, tags, price }=house;
+  
   
   return (
-    <div className={styles.house} onClick={onClick} style={style}>
+    <div className={styles.house}  onClick={onClick}>
       <div className={styles.imgWrap}>
         <img className={styles.img} src={'http://localhost:8080'+houseImg} alt="" />
       </div>
