@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
-import { Grid, Button } from "antd-mobile";
+import { Grid, Button, Modal } from "antd-mobile";
 
 import styles from "./index.module.css";
 
@@ -28,7 +28,8 @@ export default class Profile extends Component {
   state = {
     isToken: window.localStorage.getItem("token"),
     userinfo: {
-      nickname: ""
+      nickname: "",
+      avatar: ""
     }
   };
 
@@ -76,10 +77,32 @@ export default class Profile extends Component {
 
   // 退出登录
   logout = () => {
-    this.setState({
-      isToken: ""
-    });
-    window.localStorage.setItem("token", "");
+    const alert = Modal.alert;
+    const alertInstance = alert("提示", "确定要退出么?", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("cancel"),
+        style: "default"
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          this.setState({
+            isToken: "",
+            userinfo: {
+              nickname: "",
+              avatar: ""
+            }
+          });
+          window.localStorage.setItem("token", "");
+        }
+      }
+    ]);
+    setTimeout(() => {
+      // 可以调用close方法以在外部close
+      console.log("auto close");
+      alertInstance.close();
+    }, 500000);
   };
 
   componentDidMount() {
@@ -100,7 +123,11 @@ export default class Profile extends Component {
             <div className={styles.myIcon}>
               <img
                 className={styles.avatar}
-                src={"http://localhost:8080" + this.state.userinfo.avatar}
+                src={
+                  this.state.userinfo.avatar
+                    ? "http://localhost:8080" + this.state.userinfo.avatar
+                    : DEFAULT_AVATAR
+                }
                 alt="icon"
               />
             </div>
