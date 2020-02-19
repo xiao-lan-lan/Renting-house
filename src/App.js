@@ -9,6 +9,7 @@ import citylist from "./pages/cityList";
 import Map from './pages/map';
 import HouseDetail from './pages/HouseDetail';
 import Login from './pages/Login';
+import Rent from './pages/Rent';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/citylist" component={citylist} />
           <Route path="/detail/:id" component={HouseDetail} />
           <Route path="/login" component={Login} />
+          <Route path="/rent" component={Rent} />
         </div>
       </Router>
     </div>
