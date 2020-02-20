@@ -8,7 +8,7 @@ export function getCurrentCity(cb) {
     myCity.get(async result => {
       const cityName = result.name;
       const { data } = await getCityInfo(cityName);
-      cb(currcity);
+      cb(data.body);
       window.localStorage.setItem(
         "hkzf_current_city",
         JSON.stringify(data.body)

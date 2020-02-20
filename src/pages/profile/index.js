@@ -71,7 +71,7 @@ export default class Profile extends Component {
   getUser = async () => {
     const { data } = await user();
     this.setState({
-      userinfo: data.body
+      userinfo: { ...this.state.userinfo, ...data.body }
     });
   };
 

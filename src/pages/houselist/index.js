@@ -11,9 +11,6 @@ import HouseItem from "./HouseItem";
 // 导入样式
 import styles from "./index.module.css";
 
-// 获取当前定位城市信息
-const { label } = JSON.parse(window.localStorage.getItem("hkzf_current_city"));
-
 export default class HouseList extends React.Component {
   state = {
     HousesList: [] //房屋列表
