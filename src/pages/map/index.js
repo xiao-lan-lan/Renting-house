@@ -35,16 +35,19 @@ class Map extends React.Component {
             position: point, // 指定文本标注所在的地理位置
             offset: new BMap.Size(-100, 20) //设置文本偏移量
           };
-          const label = new BMap.Label(
-            "欢迎使用百度地图，这是一个简单的文本标注哦~",
-            opts
-          ); // 创建文本标注对象
+          const label = new BMap.Label("", opts); // 创建文本标注对象
+          // 覆盖物内容设置标签
+          label.setContent(
+            "<div class=bubble><p class=name>浦东新区</p><p>388套</p></div>"
+          );
           label.setStyle({
             color: "red",
             fontSize: "12px",
             height: "20px",
             lineHeight: "20px",
-            fontFamily: "微软雅黑"
+            fontFamily: "微软雅黑",
+            background: "transparent",
+            border: "none"
           });
           map.addOverlay(label);
         }
