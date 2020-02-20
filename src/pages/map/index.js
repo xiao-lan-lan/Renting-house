@@ -8,8 +8,6 @@ class Map extends React.Component {
   initMap() {
     const { BMap } = window;
     var map = new BMap.Map("container");
-    var point = new BMap.Point(116.404, 39.915);
-    map.centerAndZoom(point, 15);
 
     // 添加地图控件
     map.addControl(new BMap.NavigationControl());
@@ -20,26 +18,45 @@ class Map extends React.Component {
     // 创建地址解析器实例
     const myGeo = new BMap.Geocoder();
     // 获取当前城市
-    let city
-    getCurrentCity((currcity)=>{
-      city = currcity
-    })
+    let city;
+    getCurrentCity(currcity => {
+      city = currcity;
+    });
+
     // 将地址解析结果显示在地图上，并调整地图视野
     myGeo.getPoint(
-      city,
+      "天安门",
       function(point) {
         if (point) {
           map.centerAndZoom(point, 16);
-          // 覆盖物
-          map.addOverlay(new BMap.Marker(point));
+
+          // 添加覆盖物
+          const opts = {
+            position: point, // 指定文本标注所在的地理位置
+            offset: new BMap.Size(-100, 20) //设置文本偏移量
+          };
+          const label = new BMap.Label(
+            "欢迎使用百度地图，这是一个简单的文本标注哦~",
+            opts
+          ); // 创建文本标注对象
+          label.setStyle({
+            color: "red",
+            fontSize: "12px",
+            height: "20px",
+            lineHeight: "20px",
+            fontFamily: "微软雅黑"
+          });
+          map.addOverlay(label);
         }
       },
-      city
+      city.label
     );
   }
+
   componentDidMount() {
     this.initMap();
   }
+
   render() {
     return (
       <div className="map">
